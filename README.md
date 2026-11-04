@@ -1,6 +1,8 @@
 # Student Performance Predictor
 
-A machine learning project that predicts students' **math scores** and explores which factors are linked to exam performance. Built with Python and scikit-learn as an end-to-end workflow: data checking, exploration, model comparison and evaluation.
+A machine learning project that predicts students' **math scores** and explores which factors are linked to exam performance. Built with Python and scikit-learn as an end-to-end workflow (data checking, exploration, model comparison and evaluation), then deployed as an interactive web app with Streamlit.
+
+**Live demo:** https://your-app-link.streamlit.app
 
 ## Problem
 
@@ -31,6 +33,7 @@ The dataset is not included in this repository. Download it from the link above.
 5. **Trained and compared** three models: Linear Regression, Decision Tree (max depth 5) and Random Forest (200 trees).
 6. **Evaluated** with R², MAE, RMSE and 5-fold cross-validation.
 7. **Interpreted** the Linear Regression coefficients to see how each factor relates to math score.
+8. **Deployed** the best model (Linear Regression, Experiment A) as a Streamlit web app.
 
 ## Results
 
@@ -66,9 +69,15 @@ The dataset is not included in this repository. Download it from the link above.
 | Gender | male (+2.26) | female (-2.26) | 4.5 points |
 | Parental education | bachelor's degree (+3.61) | high school (-3.60) | 7.2 points |
 
+- **A factor's effect depends on what else is in the model.** In the full model (Experiment A), the lunch gap shrinks to roughly 4 points, because reading and writing scores already capture part of that effect.
+
 ![Linear regression coefficients](charts/linear_coefficients.png)
 
 ![Math score by test preparation course](charts/prep_course.png)
+
+## Web app
+
+`app.py` loads the trained Linear Regression model (`model_full.pkl`) and lets a user enter a student's details with dropdowns and sliders. The app then shows a predicted math score between 0 and 100. On test data the predictions were off by about 4 points on average.
 
 ## Limitations
 
@@ -84,16 +93,19 @@ git clone https://github.com/vashika-0507/student-performance-predictor.git
 cd student-performance-predictor
 pip install -r requirements.txt
 # download StudentsPerformance.csv from Kaggle and place it in this folder
-python student_performance.py
+python student_performance.py      # analysis, charts and model training
+python -m streamlit run app.py     # web app at http://localhost:8501
 ```
 
-The script prints the results tables, saves charts to `charts/`, and saves two trained models (`model_full.pkl` and `model_background.pkl`).
+The analysis script prints the results tables, saves charts to `charts/`, and saves two trained models (`model_full.pkl` and `model_background.pkl`). The web app only needs `model_full.pkl`.
 
 ## Project structure
 
 ```
 student-performance-predictor/
-├── student_performance.py   # full workflow
+├── student_performance.py   # full analysis and model training workflow
+├── app.py                   # Streamlit web app
+├── model_full.pkl           # trained model used by the app
 ├── requirements.txt
 ├── charts/                  # generated charts
 └── README.md
@@ -101,7 +113,7 @@ student-performance-predictor/
 
 ## Technologies
 
-Python, pandas, NumPy, scikit-learn, Matplotlib, Seaborn, joblib
+Python, pandas, NumPy, scikit-learn, Matplotlib, Seaborn, joblib, Streamlit
 
 ## Author
 
